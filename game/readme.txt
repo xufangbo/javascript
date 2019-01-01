@@ -1,0 +1,4 @@
+1.精灵支持clone方法，目的是服用constume和action，以便于提升性能
+  那么constume和action的设计要状态无关
+2.支持plane的背景，通过一个sprite就可以了
+3.现在action部分已经共享，造型也需要共享

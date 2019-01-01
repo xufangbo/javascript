@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>codingsprite-typing</title>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <canvas id="canvas" width="600px" height="800px" style="background:whitesmoke;"/>    
+  </body>
+  <script src="../sprite.js" ></script>
+  <script src="./js/typing.js" ></script>
+  <script>
+
+      var stage = new Stage();
+      var scene = new Scene();
+
+      var typing = new Typing();
+      typing.spliteTime = 1000;
+      typing.start();
+
+      var ball = new Ball();
+      ball.actions.push(new MoveAction(-35));
+      scene.sprites.push(ball);
+
+      ball = new Ball();
+      ball.radius=20;
+      ball.actions.push(new MoveToMouseAction());
+      ball.actions.push(new TypingKeyDownAction());
+      scene.sprites.push(ball);
+
+    
+      stage.addScene(scene);
+      stage.start();
+
+  </script>
+</html>
