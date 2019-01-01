@@ -20,27 +20,13 @@
   <script src="../sprite.js" ></script>
   <script src="./js/plane.js" ></script>
   <script>
-      var stage = new Stage();
-
+        var stage = new Stage();
         //loading page
-        var loadinScene = new Scene();
-        var loadingSprite = new Sprite();
-        
-        loadingSprite.size.width= Math.ceil(stage.context.ctx.measureText("loading 57% ...").width);
-        loadingSprite.size.height = stage.fontSize * 2;
-        loadingSprite.location.x = stage.getXofMiddle(loadingSprite.size.width);
-        loadingSprite.location.y = stage.getYofMiddle(loadingSprite.size.height);
-        loadingSprite.addConstume(new ResourceLoadingConstume(loadingSprite));
-        loadinScene.sprites.push(loadingSprite);
-        stage.addScene(loadinScene);
-
+        stage.addScene(new LoadingScene());
         //welcome page
         stage.addScene(new WelcomeScene("start.png"));
-
         //plane page
-        var plane = new PlaneScene();
-        stage.scenes.push(plane);
-
+        stage.scenes.push(new PlaneScene());
         // game over page
         stage.addScene(new GameOverScene());
 

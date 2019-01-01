@@ -1,9 +1,18 @@
+
+/**
+ * 位置
+ * 游戏编程要通过X和Y的坐标来确定精灵的位位置
+ */
 class Point {
   constructor() {
     this.x = 0;
     this.y = 0;
   }
 
+  /**
+   * 克隆
+   * 复制一个新的位置对象
+   */
   clone() {
     var clone = new Point();
     clone.x = this.x;
@@ -12,18 +21,31 @@ class Point {
     return clone;
   }
 
+  /**
+   * 复制
+   * 复制一个位置的X和Y坐标，不创建新的Point对象
+   * @param {Point} point 
+   */
   copy(point) {
     this.x = point.x;
     this.y = point.y;
   }
 }
 
+/**
+ * 尺寸
+ * 游戏编程需要确定一个精灵的大小，通过宽(width)和高(width)来表示
+ */
 class Size {
   constructor() {
     this.width = 0;
     this.height = 0;
   }
 
+    /**
+   * 克隆
+   * 复制一个新的尺寸对象
+   */
   clone() {
     var clone = new Size();
     clone.width = this.width;
@@ -31,13 +53,21 @@ class Size {
 
     return clone;
   }
-
+  /**
+   * 复制
+   * 复制一个尺寸的宽(width)和高(width)，不创建新的Size对象
+   * @param {Point} point 
+   */
   copy(size) {
     this.width = size.width;
     this.height = size.height;
   }
 }
 
+/**
+ * 盒子
+ * 盒子其实是一个四边形，通过位置和尺寸来描述精灵的位置和大小
+ */
 class Box {
   constructor() {
     this.size = null;
@@ -45,134 +75,71 @@ class Box {
   }
 }
 
-class KeyCode {
-  constructor(keyCode, lower, upper) {
-    this.keyCode = keyCode;
-    this.lower = lower;
-
-    if (upper == undefined || upper == null) {
-      this.upper = lower;
-    } else {
-      this.upper = upper;
-    }
-  }
-}
-
-var keyCodes = [];
-// keyCodes.push(new KeyCode(48, "0"));
-// keyCodes.push(new KeyCode(49, "1"));
-// keyCodes.push(new KeyCode(50, "2"));
-// keyCodes.push(new KeyCode(51, "3"));
-// keyCodes.push(new KeyCode(52, "4"));
-// keyCodes.push(new KeyCode(53, "5"));
-// keyCodes.push(new KeyCode(54, "6"));
-// keyCodes.push(new KeyCode(55, "7"));
-// keyCodes.push(new KeyCode(56, "8"));
-// keyCodes.push(new KeyCode(57, "9"));
-keyCodes.push(new KeyCode(65, "a", "A"));
-keyCodes.push(new KeyCode(66, "b", "B"));
-keyCodes.push(new KeyCode(67, "c", "C"));
-keyCodes.push(new KeyCode(68, "d", "D"));
-keyCodes.push(new KeyCode(69, "e", "E"));
-keyCodes.push(new KeyCode(70, "f", "F"));
-keyCodes.push(new KeyCode(71, "g", "G"));
-keyCodes.push(new KeyCode(72, "h", "H"));
-keyCodes.push(new KeyCode(73, "i", "I"));
-keyCodes.push(new KeyCode(74, "j", "J"));
-keyCodes.push(new KeyCode(75, "k", "K"));
-keyCodes.push(new KeyCode(76, "l", "L"));
-keyCodes.push(new KeyCode(77, "m", "M"));
-keyCodes.push(new KeyCode(78, "n", "N"));
-keyCodes.push(new KeyCode(79, "o", "O"));
-keyCodes.push(new KeyCode(80, "p", "P"));
-keyCodes.push(new KeyCode(81, "q", "Q"));
-keyCodes.push(new KeyCode(82, "r", "R"));
-keyCodes.push(new KeyCode(83, "s", "S"));
-keyCodes.push(new KeyCode(84, "t", "T"));
-keyCodes.push(new KeyCode(85, "u", "U"));
-keyCodes.push(new KeyCode(86, "v", "V"));
-keyCodes.push(new KeyCode(87, "w", "W"));
-keyCodes.push(new KeyCode(88, "x", "X"));
-keyCodes.push(new KeyCode(89, "y", "Y"));
-keyCodes.push(new KeyCode(90, "z", "Z"));
-
 /**
- * ==========================================================================
- * // Action
- * ==========================================================================
+ * 行为基类(Action)
+ * Action关注精灵的动作，比如移动等
  */
-
 class Action {
   execute(sprite, context) {}
   dispose() {}
 }
 
-class MoveAction extends Action {
-  constructor(ystep, xstep) {
-    super();
-    if (xstep == undefined || xstep == null) {
-      this.xstep = 0;
-    } else {
-      this.xstep = xstep;
-    }
-
-    if (ystep == undefined || ystep == null) {
-      this.ystep = 3;
-    } else {
-      this.ystep = ystep;
-    }
-  }
-
-  execute(sprite, context) {
-    var preBox = sprite.preBox;
-    if (preBox.location == null) {
-      preBox.location = sprite.location.clone();
-      preBox.size = sprite.size.clone();
-    } else {
-      preBox.location.copy(sprite.location);
-      preBox.size.copy(sprite.size);
-    }
-    sprite.location.y += this.ystep;
-    sprite.location.x += this.xstep;
-  }
+/**
+ * 造型基类(Constume)
+ * 
+ * 造型关注精灵的外观，即造型长的样子
+ * 可以通过自己绘制圆球、文字、图片等来构造复杂的造型
+ */
+class ConstumeBase {
+  draw(sprite, context) {}
 }
 
-class MoveToMouseAction extends Action {
-  execute(sprite, context) {
-    if (sprite.preBox.location == null) {
-      sprite.preBox.location = sprite.location.clone();
-      sprite.preBox.size = sprite.size.clone();
-    } else {
-      sprite.preBox.location.copy(sprite.location);
-      sprite.preBox.size.copy(sprite.size);
-    }
-
-    // sprite.location.copy(context.mousePoint);
-    sprite.location.x = context.mousePoint.x - sprite.size.width / 2;
-    sprite.location.y = context.mousePoint.y - sprite.size.height / 2;
-  }
-}
-
-class PlayAudioUntilFinished extends Action {
-  constructor(src) {
-    super();
-    this.audio = new Audio(src);
-  }
-
-  play() {
-    this.audio.loop = true;
-    this.audio.play();
-  }
-
-  execute(sprite, context) {}
-}
-
-class Sound {}
 
 /**
- * ==========================================================================
- * // 精灵
- * ==========================================================================
+ * 场景基类
+ * 场景也叫一个页面，比如飞机大战游戏由如下几个场景组成
+ * 1.资源加载：用户看到资源加载进度条
+ * 2.开始界面：飞机大战欢迎界面，点击鼠标开始游戏，也称之为欢迎界面
+ * 3.游戏界面：真正玩游戏的界面
+ * 4.GameOver界面：游戏结束后进入的界面
+ */
+class Scene {
+  constructor() {
+    this.sprites = [];
+  }
+
+  clear(context) {
+    var ctx = context.ctx;
+    var size = context.stage.size;
+    ctx.clearRect(0, 0, size.width, size.height);
+  }
+
+  start(context) {}
+
+  destroy(context) {
+    this.clear(context);
+  }
+}
+
+/**
+ * 游戏上下文
+ * 主要包括内容：
+ * 1.绘图的造型主要使用ctx
+ * 2.鼠标和键盘相关事件
+ * 3.舞台
+ */
+class CodingSpriteContext {
+  constructor(ctx, stage) {
+    this.mousePoint = new Point();
+    this.ctx = ctx;
+    this.keydownEvent = null;
+    this.keyupEvent = null;
+    this.stage = stage;
+  }
+}
+
+/**
+ * 精灵
  */
 
 class Sprite {
@@ -211,7 +178,6 @@ class Sprite {
     //   this.preBox.size.width,
     //   this.preBox.size.height
     // );
-
     // ctx.strokeRect(
     //   this.preBox.location.x,
     //   this.preBox.location.y,
@@ -274,123 +240,9 @@ class Sprite {
   }
 }
 
-class ConstumeBase {
-  draw(sprite, context) {}
-}
-
-class Constume extends ConstumeBase {
-  constructor(imageName) {
-    super();
-    this.img = stage.imageLoader.images.get(imageName);
-  }
-
-  draw(sprite, context) {
-    var ctx = context.ctx;
-    ctx.moveTo(sprite.location.x, sprite.location.y);
-    ctx.drawImage(this.img, sprite.location.x, sprite.location.y);
-    ctx.fill();
-  }
-
-  dispose() {
-    this.img = null;
-  }
-}
-
+//------------------------------------------------------------------------------------------------
 /**
- * 更换造型
- *
- */
-class SwitchConstume extends Action {
-  constructor(seconds) {
-    super();
-
-    this.seconds = seconds;
-  }
-
-  execute(sprite, context) {
-    var perConstumeCount = (this.seconds * 1000) / stage.ifs;
-
-    sprite.currentIfsCount++;
-    if (sprite.currentIfsCount >= perConstumeCount) {
-      sprite.currentIfsCount = 0;
-      sprite.nextConstume();
-    }
-  }
-}
-
-/**
- * 更换造型
- *
- */
-class SwitchConstumeOnce extends Action {
-  constructor(seconds) {
-    super();
-    this.seconds = seconds;
-  }
-
-  execute(sprite, context) {
-    var perConstumeCount = (this.seconds * 1000) / stage.ifs;
-    sprite.currentIfsCount++;
-    if (sprite.currentIfsCount >= perConstumeCount) {
-      var constumes = sprite.constumes;
-      let islasted =
-        constumes.indexOf(sprite.currentConstume) == constumes.length - 1;
-      if (islasted) {
-        sprite.delete();
-      } else {
-        sprite.currentIfsCount = 0;
-        sprite.nextConstume();
-      }
-    }
-  }
-}
-
-class Ball extends Sprite {
-  constructor() {
-    super();
-
-    this.location.x = 50;
-    this.location.y = stage.size.height;
-
-    this.radius = 5;
-  }
-
-  draw(context) {
-    var ctx = context.ctx;
-    ctx.moveTo(this.location.x + this.radius, this.location.y);
-    ctx.arc(this.location.x, this.location.y, this.radius, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  clear(context) {
-    var ctx = context.ctx;
-    if (this.preBox.location == null) {
-      return;
-    }
-    var offset = this.radius + ctx.lineWidth;
-    ctx.clearRect(
-      this.preBox.location.x - offset,
-      this.preBox.location.y - offset,
-      offset * 2,
-      offset * 2
-    );
-  }
-}
-
-class CodingSpriteContext {
-  constructor(ctx, stage) {
-    this.mousePoint = new Point();
-    this.ctx = ctx;
-    this.keydownEvent = null;
-    this.keyupEvent = null;
-    this.stage = stage;
-  }
-}
-
-/**
- * ==========================================================================
- * // 舞台
- * ==========================================================================
+ *  舞台
  */
 class Stage {
   constructor() {
@@ -434,9 +286,9 @@ class Stage {
     }
 
     this.currentScene.destroy(this.context);
-    
+
     this.currentScene = this.scenes[index];
-    this.currentScene.start();
+    this.currentScene.start(this.context);
   }
 
   initializeContext() {
@@ -499,7 +351,7 @@ class Stage {
   start() {
     // new PlayAudioUntilFinished("./res/background2.mp3").play();
     this.isStarted = true;
-    this.currentScene.start();
+    this.currentScene.start(this.context);
     this.interval = setInterval(this.render.bind(this), this.ifs);
     if (this.started != undefined && this.started != null) {
       this.started(this.context);
@@ -602,43 +454,206 @@ class Stage {
   }
 }
 
-class Scene {
-  constructor() {
-    this.sprites = [];
+//------------------------------------------------------------------------------------------------
+// 常用Action
+//------------------------------------------------------------------------------------------------
+
+/**
+ * 移动Action
+ */
+class MoveAction extends Action {
+  constructor(ystep, xstep) {
+    super();
+    if (xstep == undefined || xstep == null) {
+      this.xstep = 0;
+    } else {
+      this.xstep = xstep;
+    }
+
+    if (ystep == undefined || ystep == null) {
+      this.ystep = 3;
+    } else {
+      this.ystep = ystep;
+    }
   }
 
-  clear(context) {
-    var ctx = context.ctx;
-    var size = context.stage.size;
-    ctx.clearRect(0, 0, size.width, size.height);
-  }
-
-  start() {}
-
-  destroy(context){
-
-    this.clear(context);
+  execute(sprite, context) {
+    var preBox = sprite.preBox;
+    if (preBox.location == null) {
+      preBox.location = sprite.location.clone();
+      preBox.size = sprite.size.clone();
+    } else {
+      preBox.location.copy(sprite.location);
+      preBox.size.copy(sprite.size);
+    }
+    sprite.location.y += this.ystep;
+    sprite.location.x += this.xstep;
   }
 }
 
-class NextSceneKeydownAction extends Action {
+/**
+ * 移动至鼠标Action
+ */
+class MoveToMouseAction extends Action {
   execute(sprite, context) {
-    if (context.mousedownEvent != null) {
-      var stage = context.stage;
-      stage.nextScene();
-      context.mousedownEvent = null;
+    if (sprite.preBox.location == null) {
+      sprite.preBox.location = sprite.location.clone();
+      sprite.preBox.size = sprite.size.clone();
+    } else {
+      sprite.preBox.location.copy(sprite.location);
+      sprite.preBox.size.copy(sprite.size);
+    }
+
+    // sprite.location.copy(context.mousePoint);
+    sprite.location.x = context.mousePoint.x - sprite.size.width / 2;
+    sprite.location.y = context.mousePoint.y - sprite.size.height / 2;
+  }
+}
+
+/**
+ * 播放声音直至结束Action
+ */
+class PlayAudioUntilFinished extends Action {
+  constructor(src) {
+    super();
+    this.audio = new Audio(src);
+  }
+
+  play() {
+    this.audio.loop = true;
+    this.audio.play();
+  }
+
+  execute(sprite, context) {}
+}
+
+
+/**
+ * 更换造型
+ * 循环播放每个造型，实现造型动画绘制
+ *
+ */
+class SwitchConstume extends Action {
+  constructor(seconds) {
+    super();
+
+    this.seconds = seconds;
+  }
+
+  execute(sprite, context) {
+    var perConstumeCount = (this.seconds * 1000) / stage.ifs;
+
+    sprite.currentIfsCount++;
+    if (sprite.currentIfsCount >= perConstumeCount) {
+      sprite.currentIfsCount = 0;
+      sprite.nextConstume();
     }
   }
 }
 
+/**
+ * 更换造型
+ * 每个造型播放一次
+ * 播完就删除精灵
+ * 主要使用场景是游戏精灵被击中时的爆炸和消失效果
+ *
+ */
+class SwitchConstumeOnce extends Action {
+  constructor(seconds) {
+    super();
+    this.seconds = seconds;
+  }
+
+  execute(sprite, context) {
+    var perConstumeCount = (this.seconds * 1000) / stage.ifs;
+    sprite.currentIfsCount++;
+    if (sprite.currentIfsCount >= perConstumeCount) {
+      var constumes = sprite.constumes;
+      let islasted =
+        constumes.indexOf(sprite.currentConstume) == constumes.length - 1;
+      if (islasted) {
+        sprite.delete();
+      } else {
+        sprite.currentIfsCount = 0;
+        sprite.nextConstume();
+      }
+    }
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+// 常用Constume
+//------------------------------------------------------------------------------------------------
+
+/**
+ * 图片造型
+ * 图片造型是最常用的造型，所以叫Constume而不是ImageConstume
+ */
+class Constume extends ConstumeBase {
+  constructor(imageName) {
+    super();
+    this.img = stage.imageLoader.images.get(imageName);
+  }
+
+  draw(sprite, context) {
+    var ctx = context.ctx;
+    ctx.moveTo(sprite.location.x, sprite.location.y);
+    ctx.drawImage(this.img, sprite.location.x, sprite.location.y);
+    ctx.fill();
+  }
+
+  dispose() {
+    this.img = null;
+  }
+}
+
+/**
+ * 纯文本造型
+ */
+class TextConstume extends ConstumeBase {
+  constructor(text) {
+    super();
+    this.text = text;
+  }
+
+  draw(sprite, context) {
+    var ctx = context.ctx;
+    ctx.fillText(this.text, sprite.location.x, sprite.location.y);
+  }
+}
+
+
+//------------------------------------------------------------------------------------------------
+/**
+ * 资源加载界面
+ * 资源加载完成之后，游戏界面直接使用，避免异步调用降低程序复杂性
+ */
+class LoadingScene extends Scene {
+
+  start(context) {
+
+    var sprite = new Sprite();
+    var ctx = context.ctx;
+        
+    sprite.size.width= Math.ceil(ctx.measureText("loading 57% ...").width);
+    sprite.size.height = stage.fontSize * 2;
+    sprite.location.x = stage.getXofMiddle(sprite.size.width);
+    sprite.location.y = stage.getYofMiddle(sprite.size.height);
+    sprite.addConstume(new ResourceLoadingConstume(sprite));
+
+    this.sprites.push(sprite);
+  }
+}
+
+/**
+ * 图片资源加载器
+ */
 class ImageLoader {
   constructor(path, names) {
     this.images = new Map();
     this.path = path;
     this.names = names;
   }
-
-
 
   load() {
     for (var i in this.names) {
@@ -652,7 +667,7 @@ class ImageLoader {
     }
   }
 
-  getImage(imageName){
+  getImage(imageName) {
     return this.images.get(imageName);
   }
 
@@ -661,6 +676,9 @@ class ImageLoader {
   }
 }
 
+/**
+ * 图片资源加载器
+ */
 class AudioLoader {
   constructor(path, names) {
     this.audios = new Map();
@@ -684,6 +702,11 @@ class AudioLoader {
   }
 }
 
+/**
+ * 资源加载造型
+ * 资源加载包括图片资源和音频资源
+ * 主要用来显示加载进度
+ */
 class ResourceLoadingConstume extends ConstumeBase {
   constructor() {
     super();
@@ -722,6 +745,10 @@ class ResourceLoadingConstume extends ConstumeBase {
   }
 }
 
+//------------------------------------------------------------------------------------------------
+/**
+ * 游戏启动欢迎界面
+ */
 class WelcomeScene extends Scene {
   constructor(imageName) {
     super();
@@ -729,7 +756,7 @@ class WelcomeScene extends Scene {
     this.imageName = imageName;
   }
 
-  start() {
+  start(context) {
     var sprite = new Sprite();
     var welcomeConstume = sprite.addImageConstume(this.imageName);
     // var width = welcomeConstume.img.width;
@@ -740,19 +767,24 @@ class WelcomeScene extends Scene {
   }
 }
 
-class TextConstume extends ConstumeBase {
-
-  constructor(text) {
-    super();
-    this.text = text;
-  }
-
-  draw(sprite, context) {
-    var ctx = context.ctx;
-    ctx.fillText(this.text, sprite.location.x, sprite.location.y);
+/**
+ * 鼠标点击进入到下一个页面Action
+ * 比如欢迎界面，鼠标点击之后进入游戏界面
+ */
+class NextSceneKeydownAction extends Action {
+  execute(sprite, context) {
+    if (context.mousedownEvent != null) {
+      var stage = context.stage;
+      stage.nextScene();
+      context.mousedownEvent = null;
+    }
   }
 }
 
+//------------------------------------------------------------------------------------------------
+/**
+ * GameOver界面
+ */
 class GameOverScene extends Scene {
   constructor(imageName) {
     super();
@@ -760,11 +792,14 @@ class GameOverScene extends Scene {
     this.imageName = imageName;
   }
 
-  start() {
+  start(context) {
+    var ctx = context.ctx;
     var sprite = new Sprite();
     var constume = new TextConstume("GAME OVER!");
 
-    sprite.size.width= Math.ceil(stage.context.ctx.measureText(constume.text).width);
+    sprite.size.width = Math.ceil(
+      stage.context.ctx.measureText(constume.text).width
+    );
     sprite.size.height = stage.fontSize * 2;
     sprite.location.x = stage.getXofMiddle(sprite.size.width);
     sprite.location.y = stage.getYofMiddle(sprite.size.height);
@@ -776,13 +811,12 @@ class GameOverScene extends Scene {
   }
 }
 
+//------------------------------------------------------------------------------------------------
 /**
  * 背景图片精灵
  */
-class BackgroundSprite extends Sprite{
-
-  constructor(imageName){
-
+class BackgroundSprite extends Sprite {
+  constructor(imageName) {
     super();
     this.imageName = imageName;
     this.img = stage.imageLoader.getImage(this.imageName);
@@ -793,24 +827,114 @@ class BackgroundSprite extends Sprite{
   }
 
   execute(context) {
-
     var stageSize = context.stage.size;
     this.location.y += this.moveStep;
 
-    if(this.location.y > stageSize.height){
-      this.location.y =this.location.y-this.img.height;
+    if (this.location.y > stageSize.height) {
+      this.location.y = this.location.y - this.img.height;
     }
   }
 
   draw(context) {
     var ctx = context.ctx;
-    ctx.drawImage(this.img,this.location.x,this.location.y);
-    ctx.drawImage(this.img,this.location.x,this.location.y-this.img.height);
+    ctx.drawImage(this.img, this.location.x, this.location.y);
+    ctx.drawImage(this.img, this.location.x, this.location.y - this.img.height);
   }
 
   clear(context) {
     var ctx = context.ctx;
     var size = context.stage.size;
-    ctx.clearRect(0,0,size.width,size.height)
+    ctx.clearRect(0, 0, size.width, size.height);
+  }
+}
+
+//------------------------------------------------------------------------------------------------
+class KeyCode {
+  constructor(keyCode, lower, upper) {
+    this.keyCode = keyCode;
+    this.lower = lower;
+
+    if (upper == undefined || upper == null) {
+      this.upper = lower;
+    } else {
+      this.upper = upper;
+    }
+  }
+}
+
+var keyCodes = [];
+// keyCodes.push(new KeyCode(48, "0"));
+// keyCodes.push(new KeyCode(49, "1"));
+// keyCodes.push(new KeyCode(50, "2"));
+// keyCodes.push(new KeyCode(51, "3"));
+// keyCodes.push(new KeyCode(52, "4"));
+// keyCodes.push(new KeyCode(53, "5"));
+// keyCodes.push(new KeyCode(54, "6"));
+// keyCodes.push(new KeyCode(55, "7"));
+// keyCodes.push(new KeyCode(56, "8"));
+// keyCodes.push(new KeyCode(57, "9"));
+keyCodes.push(new KeyCode(65, "a", "A"));
+keyCodes.push(new KeyCode(66, "b", "B"));
+keyCodes.push(new KeyCode(67, "c", "C"));
+keyCodes.push(new KeyCode(68, "d", "D"));
+keyCodes.push(new KeyCode(69, "e", "E"));
+keyCodes.push(new KeyCode(70, "f", "F"));
+keyCodes.push(new KeyCode(71, "g", "G"));
+keyCodes.push(new KeyCode(72, "h", "H"));
+keyCodes.push(new KeyCode(73, "i", "I"));
+keyCodes.push(new KeyCode(74, "j", "J"));
+keyCodes.push(new KeyCode(75, "k", "K"));
+keyCodes.push(new KeyCode(76, "l", "L"));
+keyCodes.push(new KeyCode(77, "m", "M"));
+keyCodes.push(new KeyCode(78, "n", "N"));
+keyCodes.push(new KeyCode(79, "o", "O"));
+keyCodes.push(new KeyCode(80, "p", "P"));
+keyCodes.push(new KeyCode(81, "q", "Q"));
+keyCodes.push(new KeyCode(82, "r", "R"));
+keyCodes.push(new KeyCode(83, "s", "S"));
+keyCodes.push(new KeyCode(84, "t", "T"));
+keyCodes.push(new KeyCode(85, "u", "U"));
+keyCodes.push(new KeyCode(86, "v", "V"));
+keyCodes.push(new KeyCode(87, "w", "W"));
+keyCodes.push(new KeyCode(88, "x", "X"));
+keyCodes.push(new KeyCode(89, "y", "Y"));
+keyCodes.push(new KeyCode(90, "z", "Z"));
+
+
+//------------------------------------------------------------------------------------------------
+/**
+ * 小球精灵
+ * 本程序提供的精灵DEMO
+ * 通过程序绘制一个可以在舞台移动的小球
+ */
+class Ball extends Sprite {
+  constructor() {
+    super();
+
+    this.location.x = 50;
+    this.location.y = stage.size.height;
+
+    this.radius = 5;
+  }
+
+  draw(context) {
+    var ctx = context.ctx;
+    ctx.moveTo(this.location.x + this.radius, this.location.y);
+    ctx.arc(this.location.x, this.location.y, this.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  clear(context) {
+    var ctx = context.ctx;
+    if (this.preBox.location == null) {
+      return;
+    }
+    var offset = this.radius + ctx.lineWidth;
+    ctx.clearRect(
+      this.preBox.location.x - offset,
+      this.preBox.location.y - offset,
+      offset * 2,
+      offset * 2
+    );
   }
 }

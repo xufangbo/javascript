@@ -16,7 +16,7 @@ class PlaneScene extends Scene {
   /**
    * 启动场景
    */
-  start() {
+  start(context) {
     Actions.loadActions();
 
     var background = new BackgroundSprite("background.png");
@@ -262,6 +262,8 @@ class CreateEnemyAction extends Action {
    * 创建一号敌机
    */
   createEnemy1() {
+    var plane = stage.currentScene;
+
     var enemy1 = new Enemy1();
     this.sprites.push(enemy1);
     plane.enemies.push(enemy1);
@@ -271,6 +273,7 @@ class CreateEnemyAction extends Action {
    * 创建二号敌机
    */
   createEnemy2() {
+    var plane = stage.currentScene;
     var enemy2 = new Enemy2();
     this.sprites.push(enemy2);
     plane.enemies.push(enemy2);
@@ -280,6 +283,7 @@ class CreateEnemyAction extends Action {
    * 创建三号敌机
    */
   createEnemy3() {
+    var plane = stage.currentScene;
     var enemy3 = new Enemy3();
     this.sprites.push(enemy3);
     plane.enemies.push(enemy3);
@@ -300,6 +304,7 @@ class HitAction extends Action {
    * @param {*} context 
    */
   execute(sprite, context) {
+    var plane = context.stage.currentScene;
     for (var i in plane.enemies) {
       var enemy = plane.enemies[i];
       if (this.hit(sprite, enemy)) {
@@ -367,6 +372,7 @@ class HitAction extends Action {
  */
 class HeroHitAction extends HitAction {
   execute(sprite, context) {
+    var plane = context.stage.currentScene;
     for (var i in plane.enemies) {
       var enemy = plane.enemies[i];
       if (this.hit(sprite, enemy)) {
@@ -496,6 +502,9 @@ class CreateBulletAction extends Action {
    * @param {*} x 
    */
   setBullet(bullet, x) {
+
+    var plane = stage.currentScene;
+
     bullet.name = "bullet";
     bullet.addImageConstume("m1.png");
 
@@ -512,7 +521,12 @@ class CreateBulletAction extends Action {
  */
 class OutCanvasActon extends Action {
   execute(sprite, context) {
+    var stage = context.stage;
     if (stage.isOutRange(sprite.location, sprite.size)) {
+      var plane = stage.currentScene;
+      // if(plane.delete == undefined){
+      //   debugger;
+      // }
       plane.delete(sprite);
     }
   }
