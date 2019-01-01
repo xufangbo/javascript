@@ -2,9 +2,20 @@
   <head>
     <title>codingsprite-plan</title>
     <meta charset="utf-8"/>
+    <style type="text/css">
+      body {
+        height: 0;
+          margin: 0;
+          text-align: center;
+          overflow: hidden;
+      }      
+      canvas {
+          background-color: #ddd;
+      }
+      </style>
   </head>
-  <body >
-    <canvas id="canvas" width="1200px" height="800px" style="background-color:gray;"/>    
+  <body style="width: 100%">
+    <canvas id="canvas" width="480px" height="700px" />    
   </body>
   <script src="../sprite.js" ></script>
   <script src="./js/plane.js" ></script>
@@ -32,7 +43,6 @@
 
         // game over page
         stage.addScene(new GameOverScene());
-
 
         var images = [
                     "background.png", "game_pause_nor.png", "m1.png", "start.png",

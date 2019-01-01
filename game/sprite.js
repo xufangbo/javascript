@@ -201,16 +201,16 @@ class Sprite {
   }
 
   clear(context) {
-    var ctx = context.ctx;
-    if (this.preBox.location == null) {
-      return;
-    }
-    ctx.clearRect(
-      this.preBox.location.x,
-      this.preBox.location.y,
-      this.preBox.size.width,
-      this.preBox.size.height
-    );
+    // var ctx = context.ctx;
+    // if (this.preBox.location == null) {
+    //   return;
+    // }
+    // ctx.clearRect(
+    //   this.preBox.location.x,
+    //   this.preBox.location.y,
+    //   this.preBox.size.width,
+    //   this.preBox.size.height
+    // );
 
     // ctx.strokeRect(
     //   this.preBox.location.x,
@@ -638,6 +638,8 @@ class ImageLoader {
     this.names = names;
   }
 
+
+
   load() {
     for (var i in this.names) {
       var name = this.names[i];
@@ -648,6 +650,10 @@ class ImageLoader {
 
       this.images.set(name, img);
     }
+  }
+
+  getImage(imageName){
+    return this.images.get(imageName);
   }
 
   onImageLoad() {
@@ -767,5 +773,42 @@ class GameOverScene extends Scene {
     sprite.actions.push(new NextSceneKeydownAction());
 
     this.sprites.push(sprite);
+  }
+}
+
+/**
+ * 背景图片精灵
+ */
+class BackgroundSprite extends Sprite{
+
+  constructor(imageName){
+
+    super();
+    this.imageName = imageName;
+    this.img = stage.imageLoader.getImage(this.imageName);
+    this.moveStep = 1;
+    this.location.x = 0;
+    this.location.y = 0;
+    this.size.width = this.img.width;
+  }
+
+  execute(context) {
+    this.location.y += this.moveStep;
+
+    if(this.location.y > context.stage.size.height){
+      this.location.y -= context.stage.size.height;
+    }
+  }
+
+  draw(context) {
+    var ctx = context.ctx;
+    ctx.drawImage(this.img,this.location.x,this.location.y);
+    ctx.drawImage(this.img,this.location.x,this.location.y-this.img.height);
+  }
+
+  clear(context) {
+    var ctx = context.ctx;
+    var size = context.stage.size;
+    ctx.clearRect(0,0,size.width,size.height)
   }
 }

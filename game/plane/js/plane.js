@@ -19,6 +19,9 @@ class PlaneScene extends Scene {
   start() {
     Actions.loadActions();
 
+    var background = new BackgroundSprite("background.png");
+    this.sprites.push(background);
+
     var hero = new Hero();
     this.sprites.push(hero);
   }
