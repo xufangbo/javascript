@@ -786,17 +786,19 @@ class BackgroundSprite extends Sprite{
     super();
     this.imageName = imageName;
     this.img = stage.imageLoader.getImage(this.imageName);
-    this.moveStep = 1;
+    this.moveStep = 2;
     this.location.x = 0;
     this.location.y = 0;
     this.size.width = this.img.width;
   }
 
   execute(context) {
+
+    var stageSize = context.stage.size;
     this.location.y += this.moveStep;
 
-    if(this.location.y > context.stage.size.height){
-      this.location.y -= context.stage.size.height;
+    if(this.location.y > stageSize.height){
+      this.location.y =this.location.y-this.img.height;
     }
   }
 
