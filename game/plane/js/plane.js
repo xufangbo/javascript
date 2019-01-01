@@ -547,3 +547,33 @@ class PlaneActions {
 }
 
 var Actions = new PlaneActions();
+
+var images = [
+  "background.png", "game_pause_nor.png", "m1.png", "start.png",
+  // 敌机1
+  "enemy1.png", "enemy1_down1.png", "enemy1_down2.png", "enemy1_down3.png", "enemy1_down4.png",
+  // 敌机2
+  "enemy2.png", "enemy2_down1.png", "enemy2_down2.png", "enemy2_down3.png", "enemy2_down4.png",
+  // 敌机3
+  "enemy3_n1.png",
+  "enemy3_n2.png",
+  "enemy3_hit.png",
+  "enemy3_down1.png",
+  "enemy3_down2.png",
+  "enemy3_down3.png",
+  "enemy3_down4.png",
+  "enemy3_down5.png",
+  "enemy3_down6.png",
+  // 游戏loading图
+  "game_loading1.png",
+  "game_loading2.png",
+  "game_loading3.png",
+  "game_loading4.png",
+  // 玩家飞机图
+  "hero1.png",
+  "hero2.png",
+  "hero_blowup_n1.png",
+  "hero_blowup_n2.png",
+  "hero_blowup_n3.png",
+  "hero_blowup_n4.png"
+];
