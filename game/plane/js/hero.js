@@ -8,7 +8,7 @@ class Hero extends Sprite {
       super();
   
       this.name = "hero"; //名称
-      this.lifeValue = 100;//生命值
+      this.lifeValue = 20;//生命值
       this.attackAbility = 20;//攻击能力
       this.location.x = stage.size.width / 2; //初始坐标X轴
       this.location.y = stage.size.height - 150;//初始坐标Y轴
@@ -21,12 +21,16 @@ class Hero extends Sprite {
       this.actions.push(new CreateEnemyAction()); //创建敌机
       this.actions.push(Actions.switchConstume); //造型动画
       this.actions.push(new HeroHitAction()); //被击中Action
+      this.actions.push(new PlayAudioUntilFinished("background.mp3")); //背景音乐
     }
   
     /**
      * 我方战机被销毁
      */
     destroy() {
+
+      this.dispose();
+
       this.actions = [];
       this.constumes = [];
       this.currentConstume = null; 

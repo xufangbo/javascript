@@ -195,6 +195,15 @@ class Sprite {
   }
 
   dispose() {
+
+    for(var i in this.actions){
+      this.actions[i].dispose();
+    }
+
+    for(var i in this.constumes){
+      this.constumes[i].dispose();
+    }
+
     // this.location = null;
     // this.size = null;
     // this.preBox = null;
@@ -349,7 +358,6 @@ class Stage {
    *  启动游戏
    */
   start() {
-    // new PlayAudioUntilFinished("./res/background2.mp3").play();
     this.isStarted = true;
     this.currentScene.start(this.context);
     this.interval = setInterval(this.render.bind(this), this.ifs);
@@ -516,15 +524,28 @@ class MoveToMouseAction extends Action {
 class PlayAudioUntilFinished extends Action {
   constructor(src) {
     super();
-    this.audio = new Audio(src);
+  
+    this.src = src ;
+    this.isload = false;
   }
 
-  play() {
+  execute(sprite, context) {
+    if(!this.isload){
+      this.createSound();
+      this.audio.play();
+    }
+  }
+
+  dispose(){
+    this.audio.pause();
+  }
+
+  createSound(){
+    this.isload = true;
+
+    this.audio = stage.audioLoader.getAudio(this.src);
     this.audio.loop = true;
-    this.audio.play();
   }
-
-  execute(sprite, context) {}
 }
 
 
@@ -684,6 +705,10 @@ class AudioLoader {
     this.audios = new Map();
     this.path = path;
     this.names = names;
+  }
+
+  getAudio(name){
+    return this.audios.get(name);
   }
 
   load() {
