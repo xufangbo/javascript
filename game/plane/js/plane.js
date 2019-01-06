@@ -64,8 +64,6 @@ class PlaneScene extends Scene {
   }
 }
 
-
-
 /**
  * GameOver动作
  * 即跳转到GameOver场景
@@ -96,99 +94,6 @@ class GameOverAction extends Action {
         sprite.nextConstume();
       }
     }
-  }
-}
-
-/**
- * 创建子弹动作
- */
-class CreateBulletAction extends Action {
-  constructor(seconds) {
-    super();
-
-    this.seconds = 0.1;
-    this.ifsCount = (this.seconds * 1000) / stage.ifs;
-    this.currentCount = 0;
-
-    this.outRangeAction = new OutCanvasActon();
-    this.leftAction = new MoveAction(-20, -1);
-    this.middleAction = new MoveAction(-20, 0);
-    this.rightAction = new MoveAction(-20, 1);
-    this.hitAction = new HitAction();
-  }
-
-  /**
-   * 执行子弹创建工作
-   * @param {*} sprite 
-   * @param {*} context 
-   */
-  execute(sprite, context) {
-    this.currentCount++;
-    if (this.currentCount == this.ifsCount) {
-      this.createBulletMiddle(sprite);
-      // this.createBulletLeft(sprite);
-      // this.createBulletRight(sprite);
-
-      this.currentCount = 0;
-    }
-  }
-
-  /**
-   * 中间一排子弹
-   * @param {*} sprite 
-   */
-  createBulletMiddle(sprite) { 
-    var bullet = new Sprite();
-    bullet.location.x = sprite.location.x + 48;
-    bullet.location.y = sprite.location.y - 25;
-    bullet.actions.push(this.middleAction);
-
-    this.setBullet(bullet, 0);
-  }
-
-  /**
-   * 右边子弹
-   * @param {*} sprite 
-   */
-  createBulletRight(sprite) {
-    var bullet = new Sprite();
-    bullet.location.x = sprite.location.x + 80;
-    bullet.location.y = sprite.location.y + 20;
-    bullet.actions.push(this.rightAction);
-
-    this.setBullet(bullet, 1);
-  }
-
-  /**
-   * 左边子弹
-   * @param {*} sprite 
-   */
-  createBulletLeft(sprite) {
-    var bullet = new Sprite();
-    bullet.location.x = sprite.location.x + 15;
-    bullet.location.y = sprite.location.y + 20;
-    bullet.actions.push(this.leftAction);
-
-    this.setBullet(bullet, -1);
-  }
-
-  /**
-   * 子弹通用设置
-   * @param {*} bullet 
-   * @param {*} x 
-   */
-  setBullet(bullet, x) {
-
-    var plane = stage.currentScene;
-
-    bullet.name = "bullet";
-    bullet.addImageConstume("m1.png");
-
-    bullet.actions.push(this.hitAction);
-    bullet.actions.push(this.outRangeAction);
-
-    plane.bullets.push(bullet);
-    stage.currentScene.sprites.push(bullet);
   }
 }
 

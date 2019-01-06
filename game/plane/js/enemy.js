@@ -132,7 +132,7 @@ class CreateEnemyAction extends Action {
       this.count = 0;
       this.sprites = stage.currentScene.sprites;
       this.switchConstumeAction = Actions.switchConstume;
-      this.enemyIfs = 20 ;
+      this.enemyIfs = 1 ;
     }
   
     /**
@@ -142,16 +142,19 @@ class CreateEnemyAction extends Action {
      * @param {*} sprite 
      * @param {*} context 
      */
-    execute(sprite, context) {
+    execute(sprite, context) { 
       this.count++;
-      if (this.count % this.enemyIfs == 0) {
+      if (this.count % (this.enemyIfs * 10) == 0) {
+        // 创建1号敌机
         this.createEnemy1();
       }
-      if (this.count % (this.enemyIfs * 4) == 0) {
-        this.createEnemy2();
+      if (this.count % (this.enemyIfs * 30) == 0) {
+        // 创建2号敌机
+        // this.createEnemy2();
       }
-      if (this.count % (this.enemyIfs * 20)  == 0) {
-        this.createEnemy3();
+      if (this.count % (this.enemyIfs * 200)  == 0) {
+        // 创建3号敌机
+        // this.createEnemy3();
       }
     }
   
