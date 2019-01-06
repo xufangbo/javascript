@@ -29,7 +29,7 @@ class Hero extends Sprite {
     destroy() {
       this.actions = [];
       this.constumes = [];
-      this.currentConstume = null;
+      this.currentConstume = null; 
   
       this.actions.push(new GameOverAction(0.2));
       this.addImageConstume("hero_blowup_n1.png");

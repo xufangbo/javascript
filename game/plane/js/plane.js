@@ -137,7 +137,7 @@ class CreateBulletAction extends Action {
    * 中间一排子弹
    * @param {*} sprite 
    */
-  createBulletMiddle(sprite) {
+  createBulletMiddle(sprite) { 
     var bullet = new Sprite();
     bullet.location.x = sprite.location.x + 48;
     bullet.location.y = sprite.location.y - 25;

@@ -126,7 +126,7 @@ class Enemy extends Sprite {
 /**
  * 创建敌机Action
  */
-class CreateEnemyAction extends Action {
+class CreateEnemyAction extends Action { 
     constructor() {
       super();
       this.count = 0;
