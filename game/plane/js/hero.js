@@ -21,7 +21,7 @@ class Hero extends Sprite {
       this.actions.push(new CreateEnemyAction()); //创建敌机
       this.actions.push(Actions.switchConstume); //造型动画
       this.actions.push(new HeroHitAction()); //被击中Action
-      this.actions.push(new PlayAudioUntilFinished("background.mp3")); //背景音乐
+      //this.actions.push(new PlayAudioUntilFinished("background.mp3")); //背景音乐
     }
   
     /**
