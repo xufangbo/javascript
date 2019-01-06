@@ -20,10 +20,14 @@ class PlaneScene extends Scene {
     Actions.loadActions();
 
     var background = new BackgroundSprite("background.png");
+
     this.sprites.push(background);
 
     var hero = new Hero();
     this.sprites.push(hero);
+
+    var backgroundAudio = new PlayAudioUntilFinished("./audio/background.mp3");
+    backgroundAudio.play();
   }
 
   /**
@@ -155,3 +159,5 @@ var images = [
   "hero_blowup_n3.png",
   "hero_blowup_n4.png"
 ];
+
+var audios = ["background.mp3"];
