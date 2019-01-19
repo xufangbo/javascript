@@ -787,7 +787,7 @@ class WelcomeScene extends Scene {
     
     var welcomeConstume = sprite.addImageConstume(this.imageName);
     var width = welcomeConstume.img.width;
-    width = 400;
+    width = 500;
     sprite.location.x = stage.getXofMiddle(width);
     sprite.actions.push(new NextSceneKeydownAction());
     this.sprites.push(sprite);
