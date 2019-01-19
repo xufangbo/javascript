@@ -21,25 +21,24 @@
   <script src="./js/typing.js" ></script>
   <script>
 
+      //创建游戏对象
       var stage = new Stage();
-      var scene = new Scene();
+      //加载页 loading page
+      stage.addScene(new LoadingScene());
+      //欢迎页 welcome page
+      stage.addScene(new WelcomeScene("start.png"));
 
-      var typing = new Typing();
-      typing.spliteTime = 1000;
-      typing.start();
+      // 添加打字场景
+      var typingScene = new TypingScene();
+      typingScene.spliteTime = 1000; //设置字母出现时间间隔
+      stage.addScene(typingScene);
 
-      var ball = new Ball();
-      ball.actions.push(new MoveAction(-35));
-      scene.sprites.push(ball);
+      stage.addImages("./img/", ["start.png"]);
+      //加载音乐
+      stage.addAudios("./audio/",["background1.mp3","background2.mp3"]);      
 
-      ball = new Ball();
-      ball.radius=20;
-      ball.actions.push(new MoveToMouseAction());
-      ball.actions.push(new TypingKeyDownAction());
-      scene.sprites.push(ball);
-
-      stage.addScene(scene);
+      //启动游戏
       stage.start();
-
+        
   </script>
 </html>

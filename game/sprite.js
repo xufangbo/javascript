@@ -782,13 +782,16 @@ class WelcomeScene extends Scene {
   }
 
   start(context) {
+
     var sprite = new Sprite();
+    
     var welcomeConstume = sprite.addImageConstume(this.imageName);
-    // var width = welcomeConstume.img.width;
-    var width = 400;
+    var width = welcomeConstume.img.width;
+    width = 400;
     sprite.location.x = stage.getXofMiddle(width);
     sprite.actions.push(new NextSceneKeydownAction());
     this.sprites.push(sprite);
+
   }
 }
 

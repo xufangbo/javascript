@@ -45,36 +45,6 @@ class Word extends Sprite {
   }
 }
 
-class Typing {
-  constructor() {
-    this.start.bind(this);
-    this.addWord.bind(this);
-    this.spliteTime = 1000;
-  }
-
-  start() {
-    var me = this;
-    setInterval(function() {
-      me.addWord();
-    }, this.spliteTime);
-
-    // this.addWord();
-  }
-
-  addWord() {
-    var index = Math.floor(Math.random() * keyCodes.length);
-    if (index < 0 || index >= keyCodes.length) {
-      return;
-    }
-    var keyCode = keyCodes[index];
-    var sprite = new Word(keyCode.keyCode, keyCode.upper);
-    sprite.actions.push(new MoveAction(3));
-    sprite.actions.push(new WordOutofRange());
-
-    scene.sprites.push(sprite);
-  }
-}
-
 class TypingKeyDownAction extends Action {
   constructor() {
     super();
@@ -129,5 +99,87 @@ class WordOutofRange extends Action {
       this.audio.currentTime = 0;
       this.audio.play();
     }
+  }
+}
+
+class Typing {
+  constructor() {
+    
+  }
+
+  start() {
+  
+
+    // this.addWord();
+  }
+
+  addWord() {
+    var index = Math.floor(Math.random() * keyCodes.length);
+    if (index < 0 || index >= keyCodes.length) {
+      return;
+    }
+    var keyCode = keyCodes[index];
+    var sprite = new Word(keyCode.keyCode, keyCode.upper);
+    sprite.actions.push(new MoveAction(3));
+    sprite.actions.push(new WordOutofRange());
+
+    scene.sprites.push(sprite);
+  }
+}
+
+
+/**
+ * 打字场景
+ */
+class TypingScene extends Scene {
+  
+  constructor() {
+    super();
+
+    this.start.bind(this);
+    this.addWord.bind(this);
+    this.spliteTime = 1000;
+  }
+
+  /**
+   * 启动
+   */
+  start(context) {
+
+    this.addBall();
+
+    var me = this;
+    setInterval(function() {
+      me.addWord();
+    }, this.spliteTime);
+  }
+
+  addBall(){
+    var ball = new Ball();
+    ball.actions.push(new MoveAction(-35));
+    this.sprites.push(ball);
+
+    ball = new Ball();
+    ball.radius=20;
+    ball.actions.push(new MoveToMouseAction());
+    ball.actions.push(new TypingKeyDownAction());
+    ball.actions.push(new PlayAudioUntilFinished("background1.mp3"))
+    this.sprites.push(ball);
+  }
+
+  /**
+   * 舞台上新增一个字母
+   */
+  addWord() {
+    var index = Math.floor(Math.random() * keyCodes.length);
+    if (index < 0 || index >= keyCodes.length) {
+      return;
+    }
+    var keyCode = keyCodes[index];
+    var sprite = new Word(keyCode.keyCode, keyCode.upper);
+    sprite.actions.push(new MoveAction(3));
+    sprite.actions.push(new WordOutofRange());
+
+    this.sprites.push(sprite);
   }
 }
