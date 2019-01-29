@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>坐标助手</title>
+
+    <style>
+        input{width: 60px;}
+    </style>
+</head>
+
+<body>
+
+    <div>
+        刻度单位
+        <input id="txtUnit" type="input" value="10" />
+        每刻度单位间隔像素
+        <input id="txtStep" type="text" value="30" />
+        宽度
+        <input id="txtWidth" type="text" value="30" />
+        高度
+        <input id="txtHeight" type="text" value="20" />
+        <input id="txtCenter" type="checkbox" checked />(0.0)在中间
+
+        <input id="btnOK" onclick="generateCoordinate();" type="button" value="生成坐标" style="width:100px" />
+    </div>
+
+    <canvas id="canvas" width="1000px" height="800px" style="background:whitesmoke"></canvas>
+
+</body>
+
+<script>
+
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    generateCoordinate();
+
+    function generateCoordinate() {
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+
+        var unit = document.getElementById("txtUnit").value;
+        var step = document.getElementById("txtStep").value;//每个刻度间隔px
+        var width = document.getElementById("txtWidth").value;
+        var height = document.getElementById("txtHeight").value;
+        var offset = 30;
+        var iscenter = document.getElementById("txtCenter").checked;
+
+        //竖线
+        var y1 = offset;
+        var y2 = offset + height * step;
+        for (var i = 0; i <= width; i++) {
+            var x = offset + i * step;
+            ctx.moveTo(x, y1);
+            ctx.lineTo(x, y2);
+
+            if (iscenter) {
+                ctx.fillText(i * unit - width / 2 * unit, x - 5, offset - 5);
+                ctx.fillText(i * unit - width / 2 * unit, x - 5, offset + height * step + 15);
+            } else {
+                ctx.fillText(i * unit, x - 5, offset - 5);
+                ctx.fillText(i * unit, x - 5, offset + height * step + 15);
+            }
+        }
+
+        //横线
+        var x1 = offset;
+        var x2 = offset + width * step;
+        for (var i = 0; i <= height; i++) {
+            var y = offset + i * step;
+            ctx.moveTo(x1, y);
+            ctx.lineTo(x2, y);
+
+            if (iscenter) {
+                ctx.fillText(i * unit - height / 2 * unit, offset - step, y + 5);
+                ctx.fillText(i * unit - height / 2 * unit, width * step + offset + 5, y + 5);
+            } else {
+                ctx.fillText(i * unit, offset - step, y + 5);
+                ctx.fillText(i * unit, width * step + offset + 5, y + 5);
+            }
+        }
+
+        ctx.stroke();
+    }
+</script>
+
+</html>
