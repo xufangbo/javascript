@@ -20,11 +20,9 @@
         高度
         <input id="txtHeight" type="text" value="20" />
         <input id="txtCenter" type="checkbox" checked />(0.0)在中间
-
-        <input id="btnOK" onclick="generateCoordinate();" type="button" value="生成坐标" style="width:100px" />
     </div>
 
-    <canvas id="canvas" width="1000px" height="800px" style="background:whitesmoke"></canvas>
+    <canvas id="canvas" width="1000px" height="820px" style="background:whitesmoke"></canvas>
 
 </body>
 
@@ -32,14 +30,29 @@
 
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
+    var mousePosition = { x: 0, y: 0 }
 
-    generateCoordinate();
+    canvas.onmousedown = function (e) {
+
+    }
+
+    canvas.onmouseup = function (e) {
+    }
+
+    canvas.onmousemove = function (e) {
+        var box = canvas.getBoundingClientRect();
+        mousePosition.x = e.pageX - box.x;
+        mousePosition.y = e.pageY - box.y;
+        generateCoordinate();
+    }
+
+    // generateCoordinate();
 
     function generateCoordinate() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath();
-
+        ctx.strokeStyle = "black"
         var unit = document.getElementById("txtUnit").value;
         var step = document.getElementById("txtStep").value;//每个刻度间隔px
         var width = document.getElementById("txtWidth").value;
@@ -82,7 +95,30 @@
         }
 
         ctx.stroke();
+
+        if (mousePosition.x > 0) {
+
+            // ctx.fillText("("+mousePosition.x+","+mousePosition.y+")", mousePosition.x+10, mousePosition.y - 15);
+
+            ctx.beginPath()
+            ctx.strokeStyle = "red"
+
+            ctx.moveTo(offset - 20, mousePosition.y);
+            ctx.lineTo(offset + width * step + 20, mousePosition.y);
+            ctx.stroke();
+
+            ctx.beginPath()
+            ctx.strokeStyle = "blue"
+            ctx.moveTo(mousePosition.x, offset - 20);
+            ctx.lineTo(mousePosition.x, offset + height * step + 20);
+
+            ctx.stroke();
+        }
+
+
     }
+
+    // requestAnimationFrame(generateCoordinate)
 </script>
 
 </html>
