@@ -42,6 +42,8 @@
         var y = Math.round((mousePosition.y - offset) / step) * step + offset;
 
         points.push({ x: x, y: y });
+
+        generateCoordinate();
     }
 
     canvas.onmouseup = function (e) {
@@ -112,7 +114,6 @@
                 x -= width * unit / 2;
                 y -= height * unit / 2;
             }
-
 
             ctx.fillText("(" + x + "," + y + ")", mousePosition.x + 10, mousePosition.y - 15);
 
