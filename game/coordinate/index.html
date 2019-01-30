@@ -32,8 +32,16 @@
     var ctx = canvas.getContext("2d");
     var mousePosition = { x: 0, y: 0 }
 
-    canvas.onmousedown = function (e) {
+    var offset = 30;
+    var points = [];
 
+    canvas.onmousedown = function (e) {
+        var step = document.getElementById("txtStep").value;//每个刻度间隔px
+
+        var x = Math.round((mousePosition.x - offset) / step) * step + offset;
+        var y = Math.round((mousePosition.y - offset) / step) * step + offset;
+
+        points.push({ x: x, y: y });
     }
 
     canvas.onmouseup = function (e) {
@@ -57,7 +65,6 @@
         var step = document.getElementById("txtStep").value;//每个刻度间隔px
         var width = document.getElementById("txtWidth").value;
         var height = document.getElementById("txtHeight").value;
-        var offset = 30;
         var iscenter = document.getElementById("txtCenter").checked;
 
         //竖线
@@ -98,7 +105,16 @@
 
         if (mousePosition.x > 0) {
 
-            // ctx.fillText("("+mousePosition.x+","+mousePosition.y+")", mousePosition.x+10, mousePosition.y - 15);
+            var x = Math.round((mousePosition.x - offset) * unit / step);
+            var y = Math.round((mousePosition.y - offset) * unit / step);
+
+            if (iscenter) {
+                x -= width * unit / 2;
+                y -= height * unit / 2;
+            }
+
+
+            ctx.fillText("(" + x + "," + y + ")", mousePosition.x + 10, mousePosition.y - 15);
 
             ctx.beginPath()
             ctx.strokeStyle = "red"
@@ -115,10 +131,19 @@
             ctx.stroke();
         }
 
+        for (var i in points) {
+            ctx.beginPath();
+            ctx.fillStyle = "black";
 
+            var point = points[i];
+            ctx.arc(point.x, point.y, 10, 0, Math.PI * 2);
+
+            ctx.closePath();
+            ctx.fill();
+        }
     }
 
-    // requestAnimationFrame(generateCoordinate)
+    requestAnimationFrame(generateCoordinate)
 </script>
 
 </html>
