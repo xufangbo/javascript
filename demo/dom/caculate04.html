@@ -1,0 +1,36 @@
+﻿<html>
+<head>
+    <title>
+        编程精灵主页
+    </title>
+
+<style>
+    input{width:60px}
+</style>
+</head>
+<body>
+    <input id="txt1"  type="text" value="4" />
+    <input id="txt2"  type="text" value="5" />
+    <input id="myButton" type="button" onclick="caculate();" value="=" />
+    <input id="txt3"  type = "text" />
+    <script>
+
+        function caculate(){
+            var v1 = document.querySelector("#txt1").value;
+            var v2 = document.querySelector("#txt2").value;
+            
+            // 把string类型转换成number类型，才能进行数值计算，否则是字符串连接
+            var n1 = Number(v1);
+            var n2 = Number(v2);
+
+            var v3 = n1 + n2;
+
+            document.getElementById("txt3").value = v3;
+        }
+        // showValue();
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,31 @@
+﻿<html>
+<head>
+    <title>
+        编程精灵主页
+    </title>
+
+</head>
+<body>
+    <input id="txt1" style="width: 60px" type="text" value="4" />
+    <input id="txt2" style="width: 60px" type="text" value="5" />
+    <input id="myButton" style="width: 60px" type="button" onclick="caculate();" value="=" />
+    <input id="txt3" style="width: 60px" type = "text" />
+    <script>
+
+        function caculate(){
+            var v1 = document.querySelector("#txt1").value;
+            var v2 = document.querySelector("#txt2").value;
+
+            var v3 = v1 + v2;
+
+            document.getElementById("txt3").value = v3;
+        }
+        // showValue();
+    </script>
+</body>
+</html>
+
+
+
+
+

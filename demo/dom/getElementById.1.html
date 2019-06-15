@@ -1,0 +1,20 @@
+﻿<html>
+<head>
+    <title>
+        编程精灵主页
+    </title>
+</head>
+<body>
+    <input id="myName" type="text" value="编程精灵" />
+    <input id="myButton" type="button" onclick="showValue();" value="点我吧" />
+    <script>
+
+        function showValue(){
+            // var myInput = document.getElementById("myName");
+            var myInput = document.querySelector("#myName");
+            window.alert("input.value is " + myInput.value);
+        }
+        // showValue();
+    </script>
+</body>
+</html>
